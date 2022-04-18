@@ -8,8 +8,18 @@ interface IRequest {
 class TurnUserAdminUseCase {
   constructor(private usersRepository: IUsersRepository) {}
 
-  execute({ user_id }: IRequest): User {
-    // Complete aqui
+  execute({ user_id }: IRequest): User {    
+
+    let user = this.usersRepository.findById(user_id);
+
+    if (!user) {
+      throw new Error("User not found!");
+    }
+
+    user.admin = true;
+    user.updated_at = new Date();
+    
+    return user;
   }
 }
 
